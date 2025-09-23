@@ -1,0 +1,283 @@
+body{
+    background-color: rgb(217, 219, 241);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 45px;
+}
+
+/* Titre principal des deux pages */
+
+#globalTitreAccueil{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+#titreAccueil{
+    display: flex;
+    flex-direction: row;
+    gap: 22px;
+    
+}
+
+h1{
+    color: rgb(153, 70, 54);
+    font-family : "Paytone One";
+    font-size: 128px;
+    text-shadow: 0px 4px 4px black;
+}
+
+
+/* Texte et logo central page d'accueil */
+
+#globalEleves{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 40%;
+    align-items: center;
+}
+
+#imgEleve{
+    display: flex;
+    flex-direction: row;
+}
+
+#imgForeach{
+    background-image: url(./IMG_1596.jpg);
+    width: 101px;
+    height: 101px;
+    border-radius: 12px;
+}
+
+#textEleves{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    line-height: 0;
+    font-family: "Paytone One";
+}
+
+
+/* Texte de consigne accueil */
+
+#textConsigne{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    background-color: rgb(11, 57, 72);
+    color: white;
+    font-family: "Paytone One";
+    font-size: 20px;
+    width: 100%;
+    height: 174px;
+    border-radius: 130px;
+    box-shadow: 0px 4px 4px 0px black;
+    margin-bottom: 50px;
+    padding: 20px;
+    gap: 10px;
+    text-align: center;
+}
+
+#buttonStart{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 34.55px;
+    font-family: "Paytone One";
+    color: rgb(153, 70, 54);
+    width: 261.64px;
+    height: 75.64px;
+    gap: 17.27px;
+    background-color: rgb(208, 205, 215);
+    border: none;
+    border-radius: 20.73px;
+    box-shadow: 0px 5px 7px 0px black;
+}
+
+#buttonStart:hover{
+    scale: 1.1;
+}
+
+/* -------------------------------- PAGE DE JEU ------------------------------------*/
+
+
+#grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    width: 700px;
+    height: 700px;
+    border-radius: 10px;
+}
+
+.divCellule{
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background: linear-gradient(to bottom,#8ccce9 5%, #0B3948 95%);
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+}
+
+#clavier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+}
+
+.ligneKeyboard{
+    display: flex;
+    flex-direction: row;
+    gap: 26px;
+}
+
+.touche{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(11, 57, 72);
+    border: none;
+    border-radius: 8px;
+    width: 30px;
+    height: 28px;
+    font-family: "Paytone One";
+    color: white;
+    font-size: 20px;
+    -webkit-text-stroke: 1px black;
+    box-shadow: 0px 4px 4px 0px black;
+}
+
+.touche:hover{
+    scale: 1.3;
+    cursor: pointer;
+}
+
+#globalButton{
+    display: flex;
+    flex-direction: row;
+    gap: 70px;
+
+}
+
+.buttonJeu{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    font-family: "Paytone One";
+    font-size: 20px;
+    border-radius: 12px;
+    width: 86px;
+    height: 45px;
+    gap: 8px;
+    padding: 8px;
+    box-shadow: 0px 4px 4px 0px black;
+}
+
+.buttonJeu:hover{
+    scale: 1.1;
+    cursor: pointer;
+}
+
+.buttonColor1{
+    background-color: rgb(153, 70, 54);
+    color: rgb(208, 205, 215);
+}
+
+.buttonColor2{
+    background-color: rgb(250, 169, 22);
+    color: rgb(153, 70, 54);
+}
+
+.buttonColor3{
+    background-color: #27532E;
+    color: rgb(208, 205, 215);
+}
+
+#basPage{
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    border-top: 1px solid black;
+    opacity: 35%;
+    width: 100%;
+}
+
+footer{
+    display: flex;
+    align-items: center;
+    opacity: 35%;
+}
+
+
+#infoConsigne{
+    border: 2px solid black;
+    border-radius: 50%;
+    padding: 5px;
+    height: 15px;
+}
+
+#infoConsigne:hover{
+    cursor: pointer;
+    scale: 1.1;
+}
+
+#infoPanel{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    max-width: 400px;
+    z-index: 1000;
+    display: none;
+    font-family: Arial, sans-serif;
+}
+
+#infoPanel h3{
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+    font-size: 18px;
+}
+
+#infoPanel div{
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
+
+#buttonInfo{
+    display: block;
+    margin: 15px auto 0;
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+
