@@ -175,8 +175,43 @@ document.addEventListener('DOMContentLoaded', function () {
             } 
 
             // Bouton Valider
-            
+            if(character === "Valider"){
+                // Boucle pour intégrer les lettres et donc le mot dans les cases du MOTUS !! MAIS SEULEMENT AVEC VALIDER
+                const ligneActuelle = ligneGrille * taille;
+                let mot = "";
+                for (let m = 0; m < taille; m++){
+                    mot += cellules[ligneActuelle + m].textContent
+                }
 
+                // Alerte de remplissage de la ligne MOTUS
+                if (mot.length < taille) {
+                    alert("Mot de 7 lettres obligatoire !")
+                    return;
+                }
+
+                // ON STOCKE LE MOT RECUPERE AU DEBUT DU CODE !!! (INDISPENSABLE)
+                let lettreUtilisée = secretFirst.slice(); // On copie le mot
+                
+                // Case de couleur "rouge" = bonne lettre et bonne position
+                for (let n = 0; n < taille; n++) {
+                    const celluleIndex = ligneActuelle + n
+                    if (mot[n] === secret[n]) {
+                        cellules[celluleIndex].style.setProperty("background", "rgb(153, 70, 54)");
+                    } 
+                }
+
+                // Case de couleur "orange" = bonne lettre mais mauvaise position + case grise = mauvaise position
+                for (let n = 0; n < taille; n++) {
+                    const celluleIndex = ligneActuelle + n
+                    if (mot[n] !== secret[n]) {
+                        if (lettreUtilisée.includes(mot[n])) {
+                        cellules[celluleIndex].style.setProperty("background", "rgb(250, 169, 22)");
+                        }
+                    }
+                    
+                }
+
+            }
 
         });    
             
