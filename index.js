@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const words = ["ANIMAUX", "PANIERS", "LAPINES", "CHIFFRE", "BONJOUR", "JOURNAL", "DESSINS", "GARDIEN", "CLAVIER", "DRAPEAU"]
-    const secret = words[Math.floor(Math.random() * words.length)];
-    const secretFirst = secret.split("")
+    let secret = words[Math.floor(Math.random() * words.length)];
+    let secretFirst = secret.split("")
     const buttons = document.getElementsByClassName('buttonJeu')
 
 
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Création grille et cases
-    const grille = document.getElementById("grid");
+    let grille = document.getElementById("grid");
 
     const taille = 7
     const total = taille * taille
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(infoPanel);
 
     // Puis on créer le bouton d'info et son panneau d'info
-    infoConsigne.addEventListener('click', function() {
+    infoConsigne.addEventListener('click', function () {
         if (infoPanel.style.display === 'none' || infoPanel.style.display === '') {
             infoPanel.style.display = 'block';
         } else {
@@ -82,9 +82,32 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Événement pour fermer le panneau
-    boutonFermer.addEventListener('click', function() {
+    boutonFermer.addEventListener('click', function () {
         infoPanel.style.display = 'none';
     });
+
+    function resetJeu() {
+        secret = words[Math.floor(Math.random() * words.length)];
+        secretFirst = secret.split("");
+        caseGrille = 1;
+        ligneGrille = 0;
+        grille.innerHTML = "";
+
+        for (let i = 0; i < total; i++) {
+            const cellule = document.createElement("div");
+            cellule.classList.add("divCellule");
+            grille.appendChild(cellule);
+        };
+
+        cellules = grille.querySelectorAll('.divCellule');
+        firstLetter();
+
+        const toutesLesTouches = document.querySelectorAll('.touche');
+        toutesLesTouches.forEach(t => {
+            t.style.backgroundColor = "rgb(11, 57, 72)";
+            t.style.color = "white";
+        });
+    };
 
     // Création clavier
     const keyboard = document.getElementById("clavier");
@@ -97,14 +120,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Incorporer les lettres dans les cases via clavier virtuel
-    const cellules = grille.querySelectorAll('.divCellule'); // Selection de toutes les cellules
+    let cellules = grille.querySelectorAll('.divCellule'); // Selection de toutes les cellules
     let caseGrille = 1; // Position actuelle dans la grille
     let ligneGrille = 0 // Position actuelle dans la ligne
 
 
     // Fonction pour avoir toujours la première lettre dans chaque ligne mêm après "Valider"
     function firstLetter() {
-        const indexFL = ligneGrille * taille
+        let indexFL = ligneGrille * taille
         cellules[indexFL].textContent = secretFirst[0];
     }
 
@@ -117,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         caseGrille = 1;
     }
-     
+
 
     for (let ligneKey of lettres) {
         const divLigne = document.createElement('div');
@@ -145,6 +168,34 @@ document.addEventListener('DOMContentLoaded', function () {
         keyboard.appendChild(divLigne); // on ajoute chaque ligne au clavier
     }
 
+    document.addEventListener('keydown', function (e) {
+        const lettreTouche = e.key.toUpperCase(); // Variable pour créer clavier
+        // Effacer avec Backspace
+        const regex = /^[A-Z]$/ // Que de A à Z
+        if (e.key === "Backspace") {
+            if (caseGrille > 1) {
+                let caseIndex = (ligneGrille * taille) + (caseGrille - 1);
+                cellules[caseIndex].textContent = '';
+                caseGrille--;
+            }
+            return;
+        }
+        if (e.key === "Enter") {
+            const validerBtn = Array.from(buttons).find(function (bouton) {
+                return bouton.innerText === "Valider";
+            });
+            if (validerBtn) {
+                validerBtn.click();
+            }
+        }
+        if (!regex.test(lettreTouche)) return; // Ignore tout sauf A-Z
+        if (caseGrille < taille && ligneGrille < taille) {
+            let caseIndex = (ligneGrille * taille) + caseGrille;
+            cellules[caseIndex].textContent = lettreTouche;
+            caseGrille++;
+        }
+    })
+
 
     // Boucle pour ajouter la première lettre du mot choisi
     for (let j = 0; j < 1; j++) {
@@ -165,21 +216,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Bouton Effacer
             if (character === "Effacer") {
-                if (caseGrille > 1){
-                    let caseIndex = (ligneGrille * 7) + (caseGrille - 1)
+                if (caseGrille > 1) {
+                    let caseIndex = (ligneGrille * taille) + (caseGrille - 1)
                     cellules[caseIndex].textContent = '';
                     caseGrille--;
                     return;
                 }
                 return;
-            } 
+            }
 
             // Bouton Valider
-            if(character === "Valider"){
+            if (character === "Valider") {
                 // Boucle pour intégrer les lettres et donc le mot dans les cases du MOTUS !! MAIS SEULEMENT AVEC VALIDER
                 const ligneActuelle = ligneGrille * taille;
                 let mot = "";
-                for (let m = 0; m < taille; m++){
+                for (let m = 0; m < taille; m++) {
                     mot += cellules[ligneActuelle + m].textContent
                 }
 
@@ -189,32 +240,73 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
+                tentativesGlobales++;
+                document.getElementById("tentativesCount").textContent = tentativesGlobales;
+
                 // ON STOCKE LE MOT RECUPERE AU DEBUT DU CODE !!! (INDISPENSABLE)
                 let lettreUtilisée = secretFirst.slice(); // On copie le mot
-                
+
                 // Case de couleur "rouge" = bonne lettre et bonne position
                 for (let n = 0; n < taille; n++) {
                     const celluleIndex = ligneActuelle + n
                     if (mot[n] === secret[n]) {
                         cellules[celluleIndex].style.setProperty("background", "rgb(153, 70, 54)");
-                    } 
-                }
 
+                        const touche = Array.from(document.querySelectorAll('.touche'))
+                            .find(b => b.textContent === mot[n]);
+                        if (touche) {
+                            touche.style.backgroundColor = "rgb(153, 70, 54)";
+                            touche.style.color = "white";
+                        }
+                    }
+                }
                 // Case de couleur "orange" = bonne lettre mais mauvaise position + case grise = mauvaise position
                 for (let n = 0; n < taille; n++) {
                     const celluleIndex = ligneActuelle + n
                     if (mot[n] !== secret[n]) {
                         if (lettreUtilisée.includes(mot[n])) {
-                        cellules[celluleIndex].style.setProperty("background", "rgb(250, 169, 22)");
+                            cellules[celluleIndex].style.setProperty("background", "rgb(250, 169, 22)");
+
+                            const retireLettre = lettreUtilisée.indexOf(mot[n])
+                            if (retireLettre > -1) {
+                                lettreUtilisée.splice(retireLettre, 1)
+                            }
+                        } else {
+                            cellules[celluleIndex].style.setProperty("background", "rgb(217, 219, 241)");
                         }
                     }
-                    
-                }
+                    if (mot === secret) {
+                        partiesJouees++
+                        document.getElementById("partiesCount").textContent = partiesJouees;
+                        victoires++
+                        document.getElementById("victoiresCount").textContent = victoires;
+                        alert("VICTOIRE !")
+                        document.getElementById("btnRecommencer").style.display = "inline-block"
+                        return;
+                    }
 
+                }
+                ligneGrille++
+                caseGrille = 1
+
+                if (ligneGrille >= taille) {
+                    partiesJouees++;
+                    document.getElementById("partiesCount").textContent = partiesJouees;
+
+                    alert("Défaite ! Le mot était : " + secret);
+                    document.getElementById("btnRecommencer").style.display = "inline-block";
+                    return;
+
+                }
+                firstLetter();
             }
 
-        });    
-            
+        });
+
+        document.getElementById("btnRecommencer").addEventListener('click', function () {
+            resetJeu();
+
+        });
     }
 
 });
