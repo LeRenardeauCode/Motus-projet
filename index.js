@@ -279,6 +279,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         document.getElementById("partiesCount").textContent = partiesJouees;
                         victoires++
                         document.getElementById("victoiresCount").textContent = victoires;
+                        const audio = document.getElementById("audioVictoire");
+                        if (audio) audio.play();
                         alert("VICTOIRE !")
                         document.getElementById("btnRecommencer").style.display = "inline-block"
                         return;
@@ -293,7 +295,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (ligneGrille >= taille) {
                     partiesJouees++;
                     document.getElementById("partiesCount").textContent = partiesJouees;
-
+                    const audio = document.getElementById("audioDefaite");
+                    if (audio) audio.play();
                     alert("Défaite ! Le mot était : " + secret);
                     document.getElementById("btnRecommencer").style.display = "inline-block";
                     return;
