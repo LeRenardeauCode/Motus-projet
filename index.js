@@ -151,7 +151,6 @@ document.addEventListener('DOMContentLoaded', function () {
             bouton.textContent = touche;
             bouton.classList.add('touche');
 
-            // bouton.setAttribute('data-key', touche); // permet d'identifier la touche cliquée
             bouton.addEventListener('click', function () {
                 // Rempli les cellules l'une après l'autre
                 if (caseGrille < taille && ligneGrille < taille) {
@@ -253,6 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const lettreDispo = lettreUtilisée.indexOf(mot[n]);
                         lettreUtilisée.splice(lettreDispo, 1);
 
+                        // mettre les couleurs sur le clavier en rapport avec les couleurs du motus
                         const touche = Array.from(document.querySelectorAll('.touche'))
                             .find(b => b.textContent === mot[n]);
                         if (touche) {
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const celluleIndex = ligneActuelle + n
                     if (mot[n] !== secret[n]) {
                             cellules[celluleIndex].style.setProperty("background", "rgb(250, 169, 22)");
-
+                            
                             const retireLettre = lettreUtilisée.indexOf(mot[n])
                             if (retireLettre > -1) {
                                 lettreUtilisée.splice(retireLettre, 1);
@@ -291,11 +291,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 }
 
-                // Passer à la ligne suivante
+                // Passer à la ligne suivante + garder les lettres
                 ligneGrille++
                 caseGrille = 1
 
                 
+                if (ligneGrille < taille) {
+                    const ancienneLigne = (ligneGrille - 1) * taille
+                    const nouvelleLigne = ligneGrille * taille
+                    for (let x = 0; x < taille; x++) {
+                        const ancienneCellule = cellules[ancienneLigne + x]
+                        const nouvelleCellule = cellules[nouvelleLigne + x]
+
+                        if (ancienneCellule.style.background === "rgb(153, 70, 54)") {
+                            nouvelleCellule.textContent = ancienneCellule.textContent;
+                            // nouvelleCellule.style.background = "rgb(153, 70, 54)"
+                        }  
+                    }
+                    // Permettre à l'utilisateur de retrouver la position dernière
+                    caseGrille = 0;
+                    for (let x = 0; x < taille; x++) {
+                        const cellule = cellules[nouvelleLigne + x];
+
+                        if (cellule.textContent === '') {
+                            caseGrille = x;
+                            break;
+                        }
+                    }
+                }
+
                 if (ligneGrille >= taille) {
                     partiesJouees++;
                     document.getElementById("partiesCount").textContent = partiesJouees;
