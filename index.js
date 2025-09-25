@@ -250,6 +250,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const celluleIndex = ligneActuelle + n
                     if (mot[n] === secret[n]) {
                         cellules[celluleIndex].style.setProperty("background", "rgb(153, 70, 54)");
+                        const lettreDispo = lettreUtilisée.indexOf(mot[n]);
+                        lettreUtilisée.splice(lettreDispo, 1);
 
                         const touche = Array.from(document.querySelectorAll('.touche'))
                             .find(b => b.textContent === mot[n]);
@@ -259,21 +261,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 }
+
                 // Case de couleur "orange" = bonne lettre mais mauvaise position + case grise = mauvaise position
                 for (let n = 0; n < taille; n++) {
                     const celluleIndex = ligneActuelle + n
                     if (mot[n] !== secret[n]) {
-                        if (lettreUtilisée.includes(mot[n])) {
                             cellules[celluleIndex].style.setProperty("background", "rgb(250, 169, 22)");
 
                             const retireLettre = lettreUtilisée.indexOf(mot[n])
                             if (retireLettre > -1) {
-                                lettreUtilisée.splice(retireLettre, 1)
-                            }
+                                lettreUtilisée.splice(retireLettre, 1);
+                            
                         } else {
                             cellules[celluleIndex].style.setProperty("background", "rgb(217, 219, 241)");
-                        }
+                        }   
                     }
+
                     if (mot === secret) {
                         partiesJouees++
                         document.getElementById("partiesCount").textContent = partiesJouees;
@@ -287,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                 }
+
                 // Passer à la ligne suivante
                 ligneGrille++
                 caseGrille = 1
