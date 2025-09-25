@@ -196,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-
     // Boucle pour ajouter la première lettre du mot choisi
     for (let j = 0; j < 1; j++) {
         const element = secretFirst[j];
@@ -286,9 +285,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                 }
+                // Passer à la ligne suivante
                 ligneGrille++
                 caseGrille = 1
 
+                
                 if (ligneGrille >= taille) {
                     partiesJouees++;
                     document.getElementById("partiesCount").textContent = partiesJouees;
